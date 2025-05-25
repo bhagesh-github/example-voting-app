@@ -6,6 +6,12 @@ pipeline {
           checkout scm
         }
       }
+       stage('Debug') {
+            steps {
+                sh 'whoami'
+                sh 'groups'
+            }
+        }
        stage("Docker build and push") {
           steps {
              sh "docker login -u bhageshk -p Bhag@docker00"
