@@ -1,5 +1,16 @@
 pipeline {
    agent { label 'worker' }
+   options { 
+        buildDiscarder(logRotator(numToKeepStr: '15'))
+        disableConcurrentBuilds()
+        retry(2)
+        timeout(time: 10, unit: 'MINUTES')
+    }
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'develop', description: '')
+        booleanParam(name: 'TEST_CASES', defaultValue: true, description: '')
+        choice(name: 'ENV', choices: ['dev', 'qa', 'uat'], description: '')
+    }
     stages {
       stage("checkout") {
         steps {
